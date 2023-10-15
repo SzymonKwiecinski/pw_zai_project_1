@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "pw-zai-project-1"
+version = "0.1.0"
+description = "Univiersity project"
+authors = ["Szymon Kwiecinski"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Flask = "^3.0.0"
+
+[tool.poetry.group.dev.dependencies]
+black = {extras = ["d"], version = "^23.9.1"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
