@@ -10,6 +10,8 @@ python = "^3.10"
 Flask = "^3.0.0"
 passlib = "^1.7.4"
 argon2-cffi = "^23.1.0"
+flask-wtf = "^1.2.1"
+python-dotenv = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 black = {extras = ["d"], version = "^23.9.1"}
