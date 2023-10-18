@@ -1,25 +1,25 @@
-from dataclasses import dataclass, field
-from datetime import datetime
+from sqlmodel import create_engine, Field, SQLModel, Session, select
+from sqlalchemy.types import Text
+
+url = "postgresql://postgres:postgres@127.0.0.1:2022/timeline_app_db"
+engine = create_engine(url, echo=True)
 
 
-@dataclass
-class Movie:
-    _id: str
-    title: str
-    director: str
-    year: int
-    cast: list[str] = field(default_factory=list)
-    series: list[str] = field(default_factory=list)
-    last_watched: datetime = None
-    rating: int = 0
-    tags: list[str] = field(default_factory=list)
-    description: str = None
-    video_link: str = None
+class User(SQLModel, table=True):
+    Id: int = Field(primary_key=True, )
+    Email: str
+    Password: str
 
 
-@dataclass
-class User:
-    _id: str
-    email: str
-    password: str
-    movies: list[str] = field(default_factory=list)
+
+
+# def select_heroes():
+#     with Session(engine) as session:
+#         statement = select(test_table).where(test_table.name == 'szymon')
+#         res = session.exec(statement)
+#         for x in res:
+#             print(x)
+
+# select_heroes()
+def create_db_and_tables():
+    SQLModel.metadata.create_all(engine)

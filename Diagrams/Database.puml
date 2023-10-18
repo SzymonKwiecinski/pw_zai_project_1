@@ -1,0 +1,47 @@
+@startuml
+' hide the spot
+' hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity User {
+  **Id: SMALLINT <<PK>>**
+  --
+  Email: VARCHAR(50)
+  Password: VARCHAR(128)
+}
+
+entity Events {
+  **Id: INTEGER <<PK>>**
+  --
+  UserId: SMALLINT <<FK>>
+  Name: VARCHAR(128)
+  Description: TEXT
+  Graphic: VARCHAR(64)
+  StartDate: DATE
+  EndDate: DATE
+  CategoryId: SMALLINT <<FK>>
+}
+
+entity Categories {
+  **Id: SMALLINT <<PK>>**
+  --
+  Name: SMALLINT
+  Color: CHAR(7)
+  IconId: SMALLINT <<FK>>
+}
+
+entity Icons {
+  **Id: SMALLINT <<PK>>**
+  --
+  Name: VARCHAR(64)
+  Value: TEXT
+}
+
+
+User ||--o{ Events
+Events ||--|| Categories
+Categories ||--|| Icons
+
+@enduml

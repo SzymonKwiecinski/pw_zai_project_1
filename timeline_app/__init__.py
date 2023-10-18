@@ -1,14 +1,13 @@
 import os
 from flask import Flask
 from dotenv import load_dotenv
-from pymongo import MongoClient
+
 
 from timeline_app.routes import pages
 
 load_dotenv()
 
 MONGODB_URI = os.environ.get("MONGODB_URI")
-SECRET_KEY = os.environ.get("SECRET_KEY", "111111111111")
 
 
 def create_app():

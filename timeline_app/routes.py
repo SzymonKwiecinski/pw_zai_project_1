@@ -14,7 +14,7 @@ from flask import (
     flash
 )
 
-from timeline_app.models import Movie, User
+from timeline_app.models2 import Movie, User
 from timeline_app.forms import MovieForm, ExtendedMovieForm, RegisterForm, LoginForm
 from dataclasses import asdict
 from passlib.hash import pbkdf2_sha256, argon2
