@@ -1,0 +1,3 @@
+FLASK_ENV=development
+FLASK_APP=timeline_app:create_app
+FLASK_DEBUG=1
