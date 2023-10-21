@@ -29,7 +29,7 @@ entity categories {
   **id: SMALLINT <<PK>>**
   --
   name: VARCHAR(32)
-  color: CHAR(7)
+  color: VARCHAR(7)
   icon_id: SMALLINT <<FK>>
 }
 
