@@ -8,15 +8,20 @@
 
 {% block main_content %}
     <form name="login" method="post" novalidate class="form">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {%- for category, message in messages %}
+                <span class="form__flash form__flash--{{ category }}"> {{ message }}</span>
+            {% endfor %}
+        {% endwith %}
+
         <div class="form__container">
-            <div class="form__field">
                 {{ form.hidden_tag() }}
 
                 {{ render_text_field(form.nick) }}
-                {{ render_text_field(form.email) }}
                 {{ render_text_field(form.password) }}
-
-            </div>
+            <span class="form__small">
+                Don't have an account? <a href="#" class="form__link">Register here</a>.
+            </span>
             <div>
                 {{ form.submit(class_="button button--form") }}
             </div>
