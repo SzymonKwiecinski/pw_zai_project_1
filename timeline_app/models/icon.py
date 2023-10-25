@@ -11,4 +11,4 @@ class Icon(db.Model):
     id: Mapped[int] = mapped_column(SmallInteger, primary_key=True)
     name: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
     value: Mapped[str] = mapped_column(Text, nullable=False)
-    category: Mapped["Category"] = relationship(back_populates="icon", cascade="all, delete, delete-orphan")
+    # category: Mapped["Category"] = relationship(back_populates="icon", cascade="all, delete, delete-orphan")

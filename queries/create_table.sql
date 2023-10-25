@@ -3,7 +3,7 @@ CREATE TABLE users
     id       SMALLSERIAL PRIMARY KEY,
     nick     VARCHAR(64) UNIQUE  NOT NULL,
     email    VARCHAR(64) UNIQUE  NOT NULL,
-    password VARCHAR(128) UNIQUE NOT NULL
+    password VARCHAR(128) NOT NULL
 );
 
 CREATE TABLE icons

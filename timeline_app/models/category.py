@@ -14,5 +14,5 @@ class Category(db.Model):
     icon_id: Mapped[int] = mapped_column(
         SmallInteger, ForeignKey("icon.id", ondelete="SET NULL"), unique=True, nullable=True
     )
-    icon: Mapped[Optional["Icon"]] = relationship(back_populates="category")
-    events: Mapped[Optional[List["Category"]]] = relationship(back_populates="category")
+    # icon: Mapped[Optional["Icon"]] = relationship(back_populates="category")
+    # events: Mapped[Optional[List["Category"]]] = relationship(back_populates="category")

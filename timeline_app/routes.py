@@ -12,6 +12,7 @@ from flask import (
 from timeline_app.database import db
 from timeline_app.forms import LoginForm, RegisterForm
 from timeline_app.models import User
+from sqlalchemy import select
 
 pages = Blueprint(
     "pages", __name__, template_folder="templates", static_folder="static"
@@ -36,15 +37,18 @@ def login():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        user = User(
-            **{
-                "id": 1,
-                "nick": form.nick.data,
-                "email": form.email.data,
-                "password": form.password.data,
-            }
-        )
-        db.session.add(user)
-        db.session.commit()
+        results = db.session.execute(select(User.email).where(User.email == form.email.data)).fetchall()
+        if len(results) > 0:
+            flash("Email exist", "danger")
+        else:
+            user = User(
+                email=form.email.data,
+                password=form.password.data
+            )
+            db.session.add(user)
+            db.session.commit()
+
+
+
 
     return render_template("register.html", form=form)

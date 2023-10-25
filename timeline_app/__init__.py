@@ -6,8 +6,6 @@ from timeline_app.database import db
 from timeline_app.routes import pages
 
 
-
-
 def create_app():
     app = Flask(__name__)
     load_dotenv()
@@ -16,11 +14,9 @@ def create_app():
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("POSTGRES_URL")
     db.init_app(app)
     app.register_blueprint(pages)
-
-    with app.app_context():
-        # db.drop_all()
-        db.create_all()
+    #
+    # with app.app_context():
+    #     db.drop_all()
+    #     db.create_all()
 
     return app
-
-

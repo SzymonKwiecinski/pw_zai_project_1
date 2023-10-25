@@ -9,8 +9,7 @@ class User(db.Model):
     __tablename__ = "user"
 
     id: Mapped[int] = mapped_column(SmallInteger, primary_key=True)
-    nick: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
     email: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
-    password: Mapped[str] = mapped_column(String(128), unique=True, nullable=False)
+    password: Mapped[str] = mapped_column(String(128), nullable=False)
     # events: Mapped[Optional[List["Event"]]] = relationship(back_populates="user")
 

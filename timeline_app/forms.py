@@ -10,10 +10,7 @@ from wtforms import (
 )
 from wtforms.validators import InputRequired, NumberRange, Email, EqualTo, Length
 
-
 class RegisterForm(FlaskForm):
-    nick = StringField("Nick", validators=[InputRequired()])
-
     email = StringField("Email", validators=[InputRequired(), Email()])
 
     password = PasswordField(
@@ -21,7 +18,7 @@ class RegisterForm(FlaskForm):
         validators=[
             InputRequired(),
             Length(
-                min=4,
+                min=1,
                 max=20,
                 message="Your password must be between 4 and 20 characters long.",
             ),
@@ -43,6 +40,6 @@ class RegisterForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    nick = StringField("Nick", validators=[InputRequired()])
+    email = StringField("Email", validators=[InputRequired(), Email()])
     password = PasswordField("Password", validators=[InputRequired()])
     submit = SubmitField("Login")
