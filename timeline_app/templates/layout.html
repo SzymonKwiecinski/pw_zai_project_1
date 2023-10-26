@@ -16,7 +16,7 @@
 </head>
 
 <body>
-{{ header(None, "") }}
+{{ header(session.get("email"), session.get("theme")) }}
 <main class="main">
     {% block main_content %} {% endblock %}
 </main>

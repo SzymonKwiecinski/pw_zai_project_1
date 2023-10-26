@@ -34,19 +34,19 @@
                     </a>
                 {% else %}
                     <a
-                            href="#"
-                            class="nav__link"
+                            href="{{ url_for('pages.index') }}"
+                            class="nav__link {{ 'nav__link--active' if request.path == url_for('pages.index') }}"
                     >
-                        <span class="nav__item">Movies</span>
+                        <span class="nav__item">History</span>
                     </a>
                     <a
-                            href="#"
+                            href="{{ url_for('pages.logout') }}"
                             class="nav__link"
                     >
                         <span class="nav__item">Log out</span>
                     </a>
                 {% endif %}
-                <a href=""
+                <a href="{{ url_for('pages.toggle_theme', current_page=request.path) }}"
                    class="nav__link">
                     <span class="nav__item">
                         {% if theme == "dark" %}

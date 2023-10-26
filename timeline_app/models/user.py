@@ -10,6 +10,6 @@ class User(db.Model):
 
     id: Mapped[int] = mapped_column(SmallInteger, primary_key=True)
     email: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
-    password: Mapped[str] = mapped_column(String(128), nullable=False)
+    password: Mapped[str] = mapped_column(String(64), nullable=False)
     # events: Mapped[Optional[List["Event"]]] = relationship(back_populates="user")
 
