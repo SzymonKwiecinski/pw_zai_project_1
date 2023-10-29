@@ -14,7 +14,7 @@ from flask import (
 from passlib.hash import pbkdf2_sha256
 from timeline_app.database import db
 from timeline_app.forms import LoginForm, RegisterForm
-from timeline_app.models import User
+from timeline_app.models import User, Category
 from sqlalchemy import select
 
 HASH_TYPE = "pbkdf2-sha256"
@@ -49,7 +49,12 @@ def login_required(route):
 @pages.route("/")
 @login_required
 def index():
-    return render_template("index.html")
+    results = db.session.execute(
+        select(Category.name, Category.color, Category.icon_svg)
+    ).all()
+    print(results[0].icon_svg)
+    return render_template("index.html", categories=results)
+
 
 
 @pages.route("/login", methods=["GET", "POST"])

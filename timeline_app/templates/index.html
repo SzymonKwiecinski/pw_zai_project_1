@@ -9,17 +9,20 @@
 {% block main_content %}
     <div class="timeline-container">
         <div class="category-container">
-            <div class="category">
-                <a href="#" class="category__link">
+            {% for category in categories %}
+                <div class="category">
+                    <a href="#" class="category__link">
                     <span class="category__item">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="category__icon" fill="none" stroke="currentColor">
-                            {{ economical2() }}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="category__icon" fill="none"
+                             stroke="currentColor">
+                            {{ category.icon_svg | safe }}
                         </svg>
                     </span>
-                    <span class="category__item category__name">Economical</span>
-                    <span class="category__item category__color"></span>
-                </a>
-            </div>
+                        <span class="category__item category__name">{{ category.name }}</span>
+                        <span class="category__item category__color" style="background: {{ category.color }}"></span>
+                    </a>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
