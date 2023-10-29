@@ -1,3 +1,5 @@
+import functools
+
 from flask import (
     Blueprint,
     render_template,
@@ -33,7 +35,19 @@ pages = Blueprint(
 )
 
 
+def login_required(route):
+    @functools.wraps(route)
+    def route_wrapper(*args, **kwargs):
+        if session.get("email") is None:
+            return redirect(url_for(".login"))
+
+        return route(*args, **kwargs)
+
+    return route_wrapper
+
+
 @pages.route("/")
+@login_required
 def index():
     return render_template("index.html")
 
@@ -46,25 +60,25 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         results = db.session.execute(
-            select(User.id, User.email, User.password).where(User.email == form.email.data)
+            select(User.id, User.email, User.password).where(
+                User.email == form.email.data
+            )
         ).fetchone()
 
         if not results:
             flash("Login credentials not correct", category="danger")
             return redirect(url_for(".login"))
 
-
         pwd = add_config_vars_to_pwd(results.password)
         if pbkdf2_sha256.verify(form.password.data, pwd):
             session["user_id"] = results.id
-            session['email'] = results.email
+            session["email"] = results.email
 
             flash("User logged in successfully", "success")
 
             return redirect(url_for(".index"))
 
         flash("Login credentials not correct", category="danger")
-
 
     return render_template("login.html", form=form)
 
@@ -77,21 +91,19 @@ def register():
     form = RegisterForm()
 
     if form.validate_on_submit():
-
         results = db.session.execute(
             select(User.email).where(User.email == form.email.data)
         ).fetchall()
 
-        if not results:
+
+        if results:
             flash("This Email exist", "danger")
             return redirect(url_for(".register"))
 
         pbkdf2_sha256_password = pbkdf2_sha256.hash(
             form.password.data, salt_size=SALT_SIZE
         )
-        hashed_password_with_salt = extract_hash_pwd_with_salt(
-            pbkdf2_sha256_password
-        )
+        hashed_password_with_salt = extract_hash_pwd_with_salt(pbkdf2_sha256_password)
         user = User(email=form.email.data, password=hashed_password_with_salt)
         db.session.add(user)
         db.session.commit()
@@ -110,6 +122,7 @@ def logout():
     session["theme"] = current_theme
 
     return redirect(url_for(".login"))
+
 
 @pages.get("/toggle-theme")
 def toggle_theme():

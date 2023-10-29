@@ -1,1 +1,56 @@
 {% extends 'layout.html' %}
+
+{% from 'macros/svgs.html' import economical %}
+
+{% block head_content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/timeline.css') }}"/>
+{% endblock %}
+
+{% block main_content %}
+    <div class="timeline-container">
+        <div class="category-container">
+            <div class="category">
+                <a href="#" class="category__link">
+                    <span class="category__item category__name">Economical</span>
+                    <span class="category__item">{{ economical('category__icon') }}</span>
+                </a>
+            </div>
+            <div class="category">
+                <a href="#" class="category__link">
+                    <span class="category__name">Political</span>
+                    <span>{{ economical('category__icon') }}</span>
+                </a>
+            </div>
+                        <div class="category">
+                <a href="#" class="category__link">
+                    <span class="category__name">Political</span>
+                    <span>{{ economical('category__icon') }}</span>
+                </a>
+            </div>
+                        <div class="category">
+                <a href="#" class="category__link">
+                    <span class="category__name">Political</span>
+                    <span>{{ economical('category__icon') }}</span>
+                </a>
+            </div>
+                        <div class="category">
+                <a href="#" class="category__link">
+                    <span class="category__name">Political</span>
+                    <span>{{ economical('category__icon') }}</span>
+                </a>
+            </div>
+                        <div class="category">
+                <a href="#" class="category__link">
+                    <span class="category__name">Political</span>
+                    <span>{{ economical('category__icon') }}</span>
+                </a>
+            </div>
+                        <div class="category">
+                <a href="#" class="category__link">
+                    <span class="category__name">Political</span>
+                    <span>{{ economical('category__icon') }}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
