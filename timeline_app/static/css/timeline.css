@@ -32,18 +32,29 @@
     text-decoration: none;
     align-items: center;
     justify-content: space-between;
+
     /*justify-content: center;*/
     /*margin: auto 0;*/
 
 }
 
 .category__name {
-    margin-right: 1em;
+    margin-right: 1rem;
 }
 
 .category__icon {
     width: 4em;
     height: 4em;
+    margin-right: 1rem;
+}
+
+.category__color {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    display: inline-block;
+    background: #3bb54a;
+    border: var(--border);
 }
 
 .category:hover {

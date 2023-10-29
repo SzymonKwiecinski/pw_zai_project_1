@@ -15,8 +15,8 @@ def create_app():
     db.init_app(app)
     app.register_blueprint(pages)
     #
-    # with app.app_context():
-    #     db.drop_all()
-    #     db.create_all()
+    with app.app_context():
+        # db.drop_all()
+        db.create_all()
 
     return app
