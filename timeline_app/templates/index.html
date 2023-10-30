@@ -1,8 +1,7 @@
 {% extends 'layout.html' %}
 
-{% from 'macros/svgs.html' import economical, economical2 %}
-
 {% block head_content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/category.css') }}"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/timeline.css') }}"/>
 {% endblock %}
 
@@ -23,6 +22,52 @@
                     </a>
                 </div>
             {% endfor %}
+        </div>
+        <div class="timeline">
+            <div class="event">
+                <div class="event__body">
+                    <h2 class="event__name">Win game X</h2>
+                    <h4 class="event__category">Category: Economic</h4>
+                    <small class="event__date">Date: 2022:10:10-2022:12:24</small>
+                    <p class="event__description">
+                        Aasfjjdshgjkdfhkjfsjdkhfkjsdhkjfhkjsdhfjksdjkhfkjsdjh
+                        fkjsdfkjhsdkjfkjsdjkfhdsfsdhfkdsjfhdskjhfjkdshkjfhjkdshfkjdskjfjkdsjhfkjds
+                    </p>
+                </div>
+            </div>
+            <div class="event">
+                <div class="event__body">
+                    <h2 class="event__name">Win game Y</h2>
+                    <h4 class="event__category">Category: Economic</h4>
+                    <small class="event__date">Date: 2022:10:10-2022:12:24</small>
+                    <p class="event__description">
+                        Aasfjjdshgjkdfhkjfsjdkhfkjsdhkjfhkjsdhfjksdjkhfkjsdjh
+                        fkjsdfkjhsdkjfkjsdjkfhdsfsdhfkdsjfhdskjhfjkdshkjfhjkdshfkjdskjfjkdsjhfkjds
+                    </p>
+                </div>
+            </div>
+            <div class="event">
+                <div class="event__body">
+                    <h2 class="event__name">Win game X</h2>
+                    <h4 class="event__category">Category: Economic</h4>
+                    <small class="event__date">Date: 2022:10:10-2022:12:24</small>
+                    <p class="event__description">
+                        Aasfjjdshgjkdfhkjfsjdkhfkjsdhkjfhkjsdhfjksdjkhfkjsdjh
+                        fkjsdfkjhsdkjfkjsdjkfhdsfsdhfkdsjfhdskjhfjkdshkjfhjkdshfkjdskjfjkdsjhfkjds
+                    </p>
+                </div>
+            </div>
+            <div class="event">
+                <div class="event__body">
+                    <h2 class="event__name">Win game Y</h2>
+                    <h4 class="event__category">Category: Economic</h4>
+                    <small class="event__date">Date: 2022:10:10-2022:12:24</small>
+                    <p class="event__description">
+                        Aasfjjdshgjkdfhkjfsjdkhfkjsdhkjfhkjsdhfjksdjkhfkjsdjh
+                        fkjsdfkjhsdkjfkjsdjkfhdsfsdhfkdsjfhdskjhfjkdshkjfhjkdshfkjdskjfjkdsjhfkjds
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

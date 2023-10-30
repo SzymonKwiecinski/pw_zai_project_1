@@ -52,7 +52,6 @@ def index():
     results = db.session.execute(
         select(Category.name, Category.color, Category.icon_svg)
     ).all()
-    print(results[0].icon_svg)
     return render_template("index.html", categories=results)
 
 
