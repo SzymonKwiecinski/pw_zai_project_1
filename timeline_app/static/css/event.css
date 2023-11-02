@@ -48,6 +48,12 @@
     margin-top: 1em;
 }
 
+.event__graphic {
+    margin-left: 25%;
+    width: 50%;
+    margin-top: 1em;
+}
+
 .event:nth-child(odd) {
     border-left: var(--border);
     padding-left: 3em;

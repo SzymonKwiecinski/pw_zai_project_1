@@ -80,7 +80,7 @@ def index():
 def event(_id: int):
     active_event = session.get("active_event")
 
-    if active_event:
+    if active_event and _id == active_event:
         session.pop("active_event")
     else:
         session['active_event'] = _id

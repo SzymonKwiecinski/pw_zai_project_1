@@ -43,6 +43,11 @@
                                     <p class="event__description">
                                         {{ event.description }}
                                     </p>
+                                    <img
+                                            class="event__graphic"
+                                            src="{{ url_for('static', filename='img/event/'~event.graphic) }}"
+                                            alt="{{ event.name }}"
+                                    />
                                 {% endif %}
                             </div>
                         </a>
