@@ -24,50 +24,18 @@
             {% endfor %}
         </div>
         <div class="timeline">
-            <div class="event">
-                <div class="event__body">
-                    <h2 class="event__name">Win game X</h2>
-                    <h4 class="event__category">Category: Economic</h4>
-                    <small class="event__date">Date: 2022:10:10-2022:12:24</small>
-                    <p class="event__description">
-                        Aasfjjdshgjkdfhkjfsjdkhfkjsdhkjfhkjsdhfjksdjkhfkjsdjh
-                        fkjsdfkjhsdkjfkjsdjkfhdsfsdhfkdsjfhdskjhfjkdshkjfhjkdshfkjdskjfjkdsjhfkjds
-                    </p>
+            {% for event in events %}
+                <div class="event">
+                    <div class="event__body">
+                        <h2 class="event__name">{{ event.name }}</h2>
+                        <h4 class="event__category">Category: {{ event.category_name }}</h4>
+                        <small class="event__date">Date: {{ event.end_date }}-{{ event.start_date }}</small>
+                        <p class="event__description">
+                            {{ event.description[:200] }} ...
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="event">
-                <div class="event__body">
-                    <h2 class="event__name">Win game Y</h2>
-                    <h4 class="event__category">Category: Economic</h4>
-                    <small class="event__date">Date: 2022:10:10-2022:12:24</small>
-                    <p class="event__description">
-                        Aasfjjdshgjkdfhkjfsjdkhfkjsdhkjfhkjsdhfjksdjkhfkjsdjh
-                        fkjsdfkjhsdkjfkjsdjkfhdsfsdhfkdsjfhdskjhfjkdshkjfhjkdshfkjdskjfjkdsjhfkjds
-                    </p>
-                </div>
-            </div>
-            <div class="event">
-                <div class="event__body">
-                    <h2 class="event__name">Win game X</h2>
-                    <h4 class="event__category">Category: Economic</h4>
-                    <small class="event__date">Date: 2022:10:10-2022:12:24</small>
-                    <p class="event__description">
-                        Aasfjjdshgjkdfhkjfsjdkhfkjsdhkjfhkjsdhfjksdjkhfkjsdjh
-                        fkjsdfkjhsdkjfkjsdjkfhdsfsdhfkdsjfhdskjhfjkdshkjfhjkdshfkjdskjfjkdsjhfkjds
-                    </p>
-                </div>
-            </div>
-            <div class="event">
-                <div class="event__body">
-                    <h2 class="event__name">Win game Y</h2>
-                    <h4 class="event__category">Category: Economic</h4>
-                    <small class="event__date">Date: 2022:10:10-2022:12:24</small>
-                    <p class="event__description">
-                        Aasfjjdshgjkdfhkjfsjdkhfkjsdhkjfhkjsdhfjksdjkhfkjsdjh
-                        fkjsdfkjhsdkjfkjsdjkfhdsfsdhfkdsjfhdskjhfjkdshkjfhjkdshfkjdskjfjkdsjhfkjds
-                    </p>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

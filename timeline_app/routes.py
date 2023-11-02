@@ -14,8 +14,9 @@ from flask import (
 from passlib.hash import pbkdf2_sha256
 from timeline_app.database import db
 from timeline_app.forms import LoginForm, RegisterForm
-from timeline_app.models import User, Category
-from sqlalchemy import select
+from timeline_app.models import User, Category, Event
+from sqlalchemy import select, alias
+from icecream import ic
 
 HASH_TYPE = "pbkdf2-sha256"
 ROUND = "29000"
@@ -49,11 +50,22 @@ def login_required(route):
 @pages.route("/")
 @login_required
 def index():
-    results = db.session.execute(
+    categories = db.session.execute(
         select(Category.name, Category.color, Category.icon_svg)
     ).all()
-    return render_template("index.html", categories=results)
 
+    events = db.session.execute(
+        select(
+            Event.name,
+            Event.description,
+            Event.graphic,
+            Event.start_date,
+            Event.end_date,
+            Category.name.label("category_name"),
+        ).join_from(Event, Category)
+    ).fetchall()
+
+    return render_template("index.html", categories=categories, events=events)
 
 
 @pages.route("/login", methods=["GET", "POST"])
@@ -98,7 +110,6 @@ def register():
         results = db.session.execute(
             select(User.email).where(User.email == form.email.data)
         ).fetchall()
-
 
         if results:
             flash("This Email exist", "danger")
