@@ -60,6 +60,7 @@ def index():
 
     events = db.session.execute(
         select(
+            Event.id,
             Event.name,
             Event.description,
             Event.graphic,
@@ -70,11 +71,16 @@ def index():
             Category.color.label("category_color"),
         )
         .join_from(Event, Category)
-        .order_by(Event.start_date)
+        .order_by(Event.start_date.desc())
     ).fetchall()
 
     return render_template("index.html", categories=categories, events=events)
 
+@pages.route("/event/<int:_id>")
+def event(_id: int):
+    session['active_event'] = _id
+    ic(session['active_event'])
+    return redirect(url_for(f".index", _anchor=str(_id)))
 
 @pages.route("/category/<int:_id>")
 def category(_id: int):

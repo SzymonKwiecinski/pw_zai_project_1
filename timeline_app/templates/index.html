@@ -27,7 +27,7 @@
             {% for event in events %}
                 {% if event.category_id in session.get('active_categories') %}
                     <div class="event">
-                        <a href="#" class="event__link">
+                        <a id="{{ event.id }}" href="{{ url_for('pages.event', _id=event.id) }}" class="event__link">
                             <div class="event__body">
                                 <h2 class="event__name">{{ event.name }}</h2>
                                 <div class="event__category">
@@ -35,9 +35,15 @@
                                     <small class="dot" style="background: {{ event.category_color }}"></small>
                                 </div>
                                 <small class="event__date">Date: {{ event.end_date }}-{{ event.start_date }}</small>
-                                <p class="event__description">
-                                    {{ event.description[:200] }} ...
-                                </p>
+                                {% if event.id != session.get('active_event') %}
+                                    <p class="event__description">
+                                        {{ event.description[:200] }} ...
+                                    </p>
+                                {% else %}
+                                    <p class="event__description">
+                                        {{ event.description }}
+                                    </p>
+                                {% endif %}
                             </div>
                         </a>
                     </div>
