@@ -10,10 +10,20 @@
     position: relative;
 }
 
+.event__link {
+    color: inherit;
+    text-decoration: none;
+}
+
 .event__body {
     border: var(--border);
     border-radius: 1em;
     padding: 1.5em;
+}
+
+
+.event__body:hover {
+    background: var(--accent-colour);
 }
 
 .event__category {
