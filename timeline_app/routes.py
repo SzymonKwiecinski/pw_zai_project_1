@@ -78,8 +78,13 @@ def index():
 
 @pages.route("/event/<int:_id>")
 def event(_id: int):
-    session['active_event'] = _id
-    ic(session['active_event'])
+    active_event = session.get("active_event")
+
+    if active_event:
+        session.pop("active_event")
+    else:
+        session['active_event'] = _id
+    ic(session.get('active_event'))
     return redirect(url_for(f".index", _anchor=str(_id)))
 
 @pages.route("/category/<int:_id>")
