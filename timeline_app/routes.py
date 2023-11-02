@@ -51,8 +51,12 @@ def login_required(route):
 @login_required
 def index():
     categories = db.session.execute(
-        select(Category.name, Category.color, Category.icon_svg)
+        select(Category.id, Category.name, Category.color, Category.icon_svg)
     ).all()
+    if session.get("active_categories") is None and len(
+        session.get("active_categories") == 0
+    ):
+        session["active_categories"] = [category.id for category in categories]
 
     events = db.session.execute(
         select(
@@ -61,12 +65,28 @@ def index():
             Event.graphic,
             Event.start_date,
             Event.end_date,
+            Category.id.label("category_id"),
             Category.name.label("category_name"),
             Category.color.label("category_color"),
-        ).join_from(Event, Category)
+        )
+        .join_from(Event, Category)
+        .order_by(Event.start_date)
     ).fetchall()
 
     return render_template("index.html", categories=categories, events=events)
+
+
+@pages.route("/category/<int:_id>")
+def category(_id: int):
+    active_categories: list = session.get("active_categories")
+
+    if _id in active_categories:
+        active_categories.remove(_id)
+    else:
+        active_categories.append(_id)
+
+    session["active_categories"] = active_categories
+    return redirect(url_for(".index"))
 
 
 @pages.route("/login", methods=["GET", "POST"])

@@ -9,8 +9,8 @@
     <div class="timeline-container">
         <div class="category-container">
             {% for category in categories %}
-                <div class="category">
-                    <a href="#" class="category__link">
+                <div class="category {{ 'category__item--active' if category.id in session.get('active_categories') else '' }}">
+                    <a href="{{ url_for('pages.category', _id=category.id) }}" class="category__link">
                         <span class="category__item">
                             <svg xmlns="http://www.w3.org/2000/svg" class="category__icon" fill="none"
                                  stroke="currentColor">
@@ -25,22 +25,23 @@
         </div>
         <div class="timeline">
             {% for event in events %}
-                <div class="event">
-                    <a href="#" class="event__link">
-                        <div class="event__body">
-                            <h2 class="event__name">{{ event.name }}</h2>
-                            <div class="event__category">
-                                <h4>Category: {{ event.category_name }}</h4>
-                                <small class="dot" style="background: {{ event.category_color }}"></small>
+                {% if event.category_id in session.get('active_categories') %}
+                    <div class="event">
+                        <a href="#" class="event__link">
+                            <div class="event__body">
+                                <h2 class="event__name">{{ event.name }}</h2>
+                                <div class="event__category">
+                                    <h4>Category: {{ event.category_name }}</h4>
+                                    <small class="dot" style="background: {{ event.category_color }}"></small>
+                                </div>
+                                <small class="event__date">Date: {{ event.end_date }}-{{ event.start_date }}</small>
+                                <p class="event__description">
+                                    {{ event.description[:200] }} ...
+                                </p>
                             </div>
-                            <small class="event__date">Date: {{ event.end_date }}-{{ event.start_date }}</small>
-                            <p class="event__description">
-                                {{ event.description[:200] }} ...
-                            </p>
-                        </div>
-                    </a>
-                </div>
-
+                        </a>
+                    </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

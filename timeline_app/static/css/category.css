@@ -23,7 +23,9 @@
     min-width: 14rem;
 }
 
-
+.category__item--active {
+    background: var(--accent-colour);
+}
 
 .category__link {
     display: flex;
