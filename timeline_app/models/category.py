@@ -11,7 +11,7 @@ class Category(db.Model):
     id: Mapped[int] = mapped_column(SmallInteger, primary_key=True)
     name: Mapped[str] = mapped_column(String(32), unique=True, nullable=False)
     color: Mapped[str] = mapped_column(String(7), unique=True, nullable=False)
-    icon_svg: Mapped[str] = mapped_column(Text, nullable=False)
+    icon_svg: Mapped[str] = mapped_column(String(64), nullable=True)
 
     # icon_id: Mapped[int] = mapped_column(
     #     SmallInteger, ForeignKey("icon.id", ondelete="SET NULL"), unique=True, nullable=True

@@ -20,7 +20,7 @@
     background: var(--background-color);
     color: var(--text);
     justify-content: center;
-    min-width: 14rem;
+    min-width: 18rem;
 }
 
 .category__item--active {
@@ -35,8 +35,6 @@
     align-items: center;
     justify-content: space-between;
 
-    /*justify-content: center;*/
-    /*margin: auto 0;*/
 
 }
 
