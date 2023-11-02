@@ -28,13 +28,17 @@
                 <div class="event">
                     <div class="event__body">
                         <h2 class="event__name">{{ event.name }}</h2>
-                        <h4 class="event__category">Category: {{ event.category_name }}</h4>
+                        <div class="event__category">
+                            <h4>Category: {{ event.category_name }}</h4>
+                            <small class="dot" style="background: {{ event.category_color }}"></small>
+                        </div>
                         <small class="event__date">Date: {{ event.end_date }}-{{ event.start_date }}</small>
                         <p class="event__description">
                             {{ event.description[:200] }} ...
                         </p>
                     </div>
                 </div>
+
             {% endfor %}
         </div>
     </div>

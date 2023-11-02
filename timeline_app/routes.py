@@ -62,6 +62,7 @@ def index():
             Event.start_date,
             Event.end_date,
             Category.name.label("category_name"),
+            Category.color.label("category_color"),
         ).join_from(Event, Category)
     ).fetchall()
 
