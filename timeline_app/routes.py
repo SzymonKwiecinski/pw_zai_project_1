@@ -53,9 +53,7 @@ def index():
     categories = db.session.execute(
         select(Category.id, Category.name, Category.color, Category.icon_svg)
     ).all()
-    if session.get("active_categories") is None and len(
-        session.get("active_categories") == 0
-    ):
+    if session.get("active_categories") is None:
         session["active_categories"] = [category.id for category in categories]
 
     events = db.session.execute(
