@@ -87,6 +87,19 @@ def event(_id: int):
     ic(session.get("active_event"))
     return redirect(url_for(f".index", _anchor=str(_id)))
 
+@pages.route("/delete_event")
+def delete_event():
+    _id = request.args.get("_id")
+    graphic = request.args.get("graphic")
+    db.session.execute(delete(Event).where(Event.id == _id))
+    if event_exits(graphic):
+        remove_file_from_event(graphic)
+    db.session.commit()
+
+    return redirect(url_for(".index"))
+
+
+
 
 @pages.route("/new_event", methods=["GET", "POST"])
 def new_event():

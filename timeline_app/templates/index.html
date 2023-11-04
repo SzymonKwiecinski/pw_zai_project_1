@@ -65,7 +65,7 @@
                         </a>
                         {% if event.id == session.get('active_event') %}
                             <div class="event__actions">
-                                <a href="#" class="event__delete event__link">
+                                <a href="{{ url_for('pages.delete_event', _id=event.id, graphic=event.graphic) }}" class="event__delete event__link">
                                     Delete
 
                                 </a>
