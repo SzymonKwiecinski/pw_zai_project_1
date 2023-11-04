@@ -1,14 +1,11 @@
 from datetime import datetime
 
-from flask_uploads import UploadSet, IMAGES
 from flask_wtf import FlaskForm
-from flask_wtf import FlaskForm
+from flask_wtf.file import FileRequired, FileAllowed, FileField
 from wtforms import (
-    IntegerField,
     StringField,
     SubmitField,
     TextAreaField,
-    URLField,
     PasswordField,
     SelectField,
     ColorField,
@@ -16,17 +13,11 @@ from wtforms import (
 )
 from wtforms.validators import (
     InputRequired,
-    NumberRange,
     Email,
     EqualTo,
     Length,
-    Regexp,
     DataRequired,
-
 )
-from flask_wtf.file import FileRequired, FileAllowed, FileField
-
-from flask import current_app
 
 
 class EventForm(FlaskForm):
@@ -39,10 +30,15 @@ class EventForm(FlaskForm):
             FileRequired("File is required"),
         ],
     )
-    start_date = DateField("Start date", default=datetime.now(), validators=[InputRequired(), DataRequired()])
-    end_date = DateField("End date", default=datetime.now(), validators=[InputRequired(), DataRequired()])
+    start_date = DateField(
+        "Start date",
+        default=datetime.now(),
+        validators=[InputRequired(), DataRequired()],
+    )
+    end_date = DateField(
+        "End date", default=datetime.now(), validators=[InputRequired(), DataRequired()]
+    )
     category = SelectField("Category", choices=[])
-
 
 
 class AddEventForm(EventForm):
@@ -52,9 +48,7 @@ class AddEventForm(EventForm):
 class EditEventForm(EventForm):
     graphic = FileField(
         "Graphic PNG",
-        validators=[
-            FileAllowed(["png"], "Only PNG format")
-        ],
+        validators=[FileAllowed(["png"], "Only PNG format")],
     )
     submit = SubmitField("Save Edited")
 
