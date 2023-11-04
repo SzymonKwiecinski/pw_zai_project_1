@@ -10,7 +10,7 @@ class Category(db.Model):
 
     id: Mapped[int] = mapped_column(SmallInteger, primary_key=True)
     name: Mapped[str] = mapped_column(String(32), unique=True, nullable=False)
-    color: Mapped[str] = mapped_column(String(7), unique=True, nullable=False)
+    color: Mapped[str] = mapped_column(String(7), unique=False, nullable=False)
     icon_svg: Mapped[str] = mapped_column(String(64), nullable=False)
 
     # icon_id: Mapped[int] = mapped_column(
