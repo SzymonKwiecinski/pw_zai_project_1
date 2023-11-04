@@ -12,9 +12,4 @@ class Category(db.Model):
     name: Mapped[str] = mapped_column(String(32), unique=True, nullable=False)
     color: Mapped[str] = mapped_column(String(7), unique=False, nullable=False)
     icon_svg: Mapped[str] = mapped_column(String(64), nullable=False)
-
-    # icon_id: Mapped[int] = mapped_column(
-    #     SmallInteger, ForeignKey("icon.id", ondelete="SET NULL"), unique=True, nullable=True
-    # )
-    # icon: Mapped[Optional["Icon"]] = relationship(back_populates="category")
     # events: Mapped[Optional[List["Category"]]] = relationship(back_populates="category")

@@ -271,12 +271,20 @@ def edit_category(_id: int):
 @pages.route("/delete_category/<int:_id>", methods=["GET", "POST"])
 def delete_category(_id: int):
     icon_svg = request.args.get("icon_svg", None)
+
+    results = db.session.execute(select(Event).where(Event.category_id == _id)).fetchall()
+
+    if len(results):
+        flash("This category has exists events!!", category="danger")
+        return redirect(url_for('pages.edit_category', _id=_id, icon_svg=icon_svg))
+
     db.session.execute(delete(Category).where(Category.id == _id))
     if category_exits(icon_svg):
         remove_file_from_category(icon_svg)
 
     db.session.commit()
     return redirect(url_for(".edit_categories"))
+
 
 
 @pages.route("/login", methods=["GET", "POST"])
