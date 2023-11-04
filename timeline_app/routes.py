@@ -1,22 +1,15 @@
-import datetime
-import functools
-import os
-from pathlib import Path
 from flask import (
     Blueprint,
     render_template,
     session,
     redirect,
     request,
-    current_app,
     url_for,
-    abort,
     flash,
 )
-from flask_uploads import UploadSet
+from icecream import ic
 from passlib.hash import pbkdf2_sha256
-from werkzeug.datastructures import FileStorage
-from werkzeug.utils import secure_filename
+from sqlalchemy import select, update, delete
 
 from timeline_app.database import db
 from timeline_app.forms import (
@@ -25,11 +18,8 @@ from timeline_app.forms import (
     NewCategoryForm,
     EditCategoryForm,
     AddEventForm,
+    EditEventForm,
 )
-from timeline_app.models import User, Category, Event
-from sqlalchemy import select, alias, update, delete
-from icecream import ic
-
 from timeline_app.helpers import (
     extract_hash_pwd_with_salt,
     add_config_vars_to_pwd,
@@ -42,6 +32,7 @@ from timeline_app.helpers import (
     event_exits,
     SALT_SIZE,
 )
+from timeline_app.models import User, Category, Event
 
 pages = Blueprint(
     "pages", __name__, template_folder="templates", static_folder="static"
@@ -87,6 +78,7 @@ def event(_id: int):
     ic(session.get("active_event"))
     return redirect(url_for(f".index", _anchor=str(_id)))
 
+
 @pages.route("/delete_event")
 def delete_event():
     _id = request.args.get("_id")
@@ -99,6 +91,69 @@ def delete_event():
     return redirect(url_for(".index"))
 
 
+@pages.route("/edit_event", methods=["GET", "POST"])
+def edit_event():
+    _id = request.args.get("_id")
+    event = db.session.execute(
+        select(
+            Event.name,
+            Event.description,
+            Event.start_date,
+            Event.graphic,
+            Event.end_date,
+            Event.category_id,
+            Category.name.label("category_name"),
+        )
+        .join_from(Event, Category)
+        .where(Event.id == _id)
+    ).one()
+
+    form = EditEventForm()
+    categories = db.session.execute(select(Category.name)).all()
+    form.category.choices = [c.name for c in categories]
+
+    if form.validate_on_submit():
+        if form.start_date.data > form.end_date.data:
+            flash("Wrong dates", category="danger")
+            return redirect(url_for(".new_event"))
+
+        category = db.session.execute(
+            select(Category.id).where(Category.name == form.category.data)
+        ).one()
+
+        db.session.execute(
+            update(Event)
+            .where(Event.id == _id)
+            .values(
+                name=form.name.data,
+                description=form.description.data,
+                start_date=form.start_date.data,
+                end_date=form.end_date.data,
+                category_id=category.id,
+            )
+        )
+
+        db.session.commit()
+        if form.graphic.data and (form.graphic.data.filename != event.graphic):
+            db.session.execute(
+                update(Event)
+                .where(Event.id == _id)
+                .values(graphic=form.graphic.data.filename)
+            )
+            remove_file_from_event(event.graphic)
+            add_file_to_event(form.graphic.data)
+
+        db.session.commit()
+
+        return redirect(url_for(".index"))
+
+    form.name.data = event.name
+    form.description.data = event.description
+    form.start_date.data = event.start_date
+    form.end_date.data = event.end_date
+    form.category.data = event.category_name
+
+    return render_template("add_event.html", form=form)
 
 
 @pages.route("/new_event", methods=["GET", "POST"])
@@ -130,8 +185,6 @@ def new_event():
         db.session.commit()
 
         return redirect(url_for(".index"))
-
-
 
     return render_template("add_event.html", form=form)
 

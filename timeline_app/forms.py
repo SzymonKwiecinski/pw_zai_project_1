@@ -50,6 +50,12 @@ class AddEventForm(EventForm):
 
 
 class EditEventForm(EventForm):
+    graphic = FileField(
+        "Graphic PNG",
+        validators=[
+            FileAllowed(["png"], "Only PNG format")
+        ],
+    )
     submit = SubmitField("Save Edited")
 
 
