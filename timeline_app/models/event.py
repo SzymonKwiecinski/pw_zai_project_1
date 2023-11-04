@@ -1,7 +1,14 @@
-from typing import Optional
+from sqlalchemy import (
+    String,
+    SmallInteger,
+    Integer,
+    Text,
+    Date,
+    ForeignKey,
+    CheckConstraint,
+)
+from sqlalchemy.orm import Mapped, mapped_column
 
-from sqlalchemy import String, SmallInteger, Integer, Text, Date, ForeignKey, CheckConstraint
-from sqlalchemy.orm import Mapped, mapped_column, relationship
 from timeline_app.database import db
 
 
@@ -14,6 +21,7 @@ class Event(db.Model):
     graphic: Mapped[str] = mapped_column(String(64), nullable=True)
     start_date: Mapped[str] = mapped_column(Date, nullable=False)
     end_date: Mapped[str] = mapped_column(Date, nullable=False)
-    category_id: Mapped[str] = mapped_column(SmallInteger, ForeignKey("category.id", ondelete="SET NULL"), nullable=True)
-    # category: Mapped["Category"] = relationship(back_populates="events")
+    category_id: Mapped[str] = mapped_column(
+        SmallInteger, ForeignKey("category.id", ondelete="SET NULL"), nullable=True
+    )
     CheckConstraint("end_date >= start_date", name="check_date")

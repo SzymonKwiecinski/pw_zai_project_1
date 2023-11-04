@@ -1,7 +1,6 @@
-from typing import List, Optional
+from sqlalchemy import String, SmallInteger
+from sqlalchemy.orm import Mapped, mapped_column
 
-from sqlalchemy import String, SmallInteger, ForeignKey, Text
-from sqlalchemy.orm import Mapped, mapped_column, relationship
 from timeline_app.database import db
 
 
@@ -12,4 +11,3 @@ class Category(db.Model):
     name: Mapped[str] = mapped_column(String(32), unique=True, nullable=False)
     color: Mapped[str] = mapped_column(String(7), unique=False, nullable=False)
     icon_svg: Mapped[str] = mapped_column(String(64), nullable=False)
-    # events: Mapped[Optional[List["Category"]]] = relationship(back_populates="category")
