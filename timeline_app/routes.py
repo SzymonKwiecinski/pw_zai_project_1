@@ -12,13 +12,19 @@ from flask import (
     abort,
     flash,
 )
+from flask_uploads import UploadSet
 from passlib.hash import pbkdf2_sha256
 from werkzeug.utils import secure_filename
 
 from timeline_app.database import db
-from timeline_app.forms import LoginForm, RegisterForm, NewCategoryForm
+from timeline_app.forms import (
+    LoginForm,
+    RegisterForm,
+    NewCategoryForm,
+    EditCategoryForm,
+)
 from timeline_app.models import User, Category, Event
-from sqlalchemy import select, alias
+from sqlalchemy import select, alias, update, delete
 from icecream import ic
 
 HASH_TYPE = "pbkdf2-sha256"
@@ -77,6 +83,7 @@ def index():
 
     return render_template("index.html", categories=categories, events=events)
 
+
 @pages.route("/event/<int:_id>")
 def event(_id: int):
     active_event = session.get("active_event")
@@ -84,9 +91,10 @@ def event(_id: int):
     if active_event and _id == active_event:
         session.pop("active_event")
     else:
-        session['active_event'] = _id
-    ic(session.get('active_event'))
+        session["active_event"] = _id
+    ic(session.get("active_event"))
     return redirect(url_for(f".index", _anchor=str(_id)))
+
 
 @pages.route("/category/<int:_id>")
 def category(_id: int):
@@ -115,33 +123,67 @@ def add_category():
     form = NewCategoryForm()
     if form.validate_on_submit():
         ic(f"timeline_app/static/img/category/{form.icon_svg.data.filename}")
-        if os.path.isfile(f"timeline_app/static/img/category/{form.icon_svg.data.filename}"):
+        if os.path.isfile(
+            f"timeline_app/static/img/category/{form.icon_svg.data.filename}"
+        ):
             flash("File with this name exists", category="danger")
             return redirect(url_for(".add_category"))
 
-
-        new_category = Category(name=form.name.data, color=form.color.data, icon_svg=form.icon_svg.data.filename)
+        new_category = Category(
+            name=form.name.data,
+            color=form.color.data,
+            icon_svg=form.icon_svg.data.filename,
+        )
         db.session.add(new_category)
         db.session.commit()
         current_app.photos.save(form.icon_svg.data, folder="category")
-
 
         return redirect(url_for(".edit_categories"))
 
     return render_template("add_category.html", form=form)
 
 
-
-
-@pages.route("/edit_category/<int:_id>")
+@pages.route("/edit_category/<int:_id>", methods=["GET", "POST"])
 def edit_category(_id: int):
     category = db.session.execute(
-        select(Category.id, Category.name, Category.color, Category.icon_svg).where(Category.id == _id)
+        select(Category.id, Category.name, Category.color, Category.icon_svg).where(
+            Category.id == _id
+        )
     ).one()
+    current_app.photos: UploadSet
+    # current_app.photos.
+    form = EditCategoryForm(name=category.name, color=category.color)
+    if form.validate_on_submit():
+        db.session.execute(
+            update(Category)
+            .where(Category.id == _id)
+            .values(name=form.name.data, color=form.color.data)
+        )
+
+        if form.icon_svg.data:
+            db.session.execute(
+                update(Category)
+                .where(Category.id == _id)
+                .values(icon_svg=form.icon_svg.data.filename)
+            )
+            if os.path.isfile(f"timeline_app/static/img/category/{category.icon_svg}"):
+                os.remove(f"timeline_app/static/img/category/{category.icon_svg}")
+                current_app.photos.save(form.icon_svg.data, folder="category")
+
+        db.session.commit()
+        return redirect(url_for(".edit_categories"))
+
+    return render_template("edit_category.html", form=form, category=category)
 
 
-
-    return render_template("edit_categories.html", categories=categories, edit_category=category)
+@pages.route("/delete_category/<int:_id>", methods=["GET", "POST"])
+def delete_category(_id: int):
+    icon_svg = request.args.get('icon_svg', None)
+    db.session.execute(delete(Category).where(Category.id == _id))
+    if os.path.isfile(f"timeline_app/static/img/category/{icon_svg}"):
+        os.remove(f"timeline_app/static/img/category/{icon_svg}")
+    db.session.commit()
+    return redirect(url_for(".edit_categories"))
 
 
 @pages.route("/login", methods=["GET", "POST"])

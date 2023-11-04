@@ -24,17 +24,27 @@ from flask_wtf.file import FileRequired, FileAllowed, FileField
 from flask import current_app
 
 
-class NewCategoryForm(FlaskForm):
+class CategoryForm(FlaskForm):
     name = StringField("Name", validators=[InputRequired()])
     color = ColorField("Color", validators=[InputRequired()])
     icon_svg = FileField(
         "SVG icon",
         validators=[
             FileAllowed(IMAGES, "Only Images"),
-            FileRequired("File is required")
-        ]
+            FileRequired("File is required"),
+        ],
     )
-    submit = SubmitField("Save")
+
+
+class NewCategoryForm(CategoryForm):
+    submit = SubmitField("Save New")
+
+
+class EditCategoryForm(CategoryForm):
+    icon_svg = FileField(
+        "New SVG Icon",
+    )
+    submit = SubmitField("Save Edited")
 
 
 class RegisterForm(FlaskForm):
