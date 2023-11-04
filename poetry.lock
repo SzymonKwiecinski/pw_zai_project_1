@@ -531,6 +531,23 @@ blinker = "*"
 Flask = "*"
 
 [[package]]
+name = "flask-reuploaded"
+version = "1.4.0"
+description = "Flexible and efficient upload handling for Flask"
+optional = false
+python-versions = ">= 3.8"
+files = [
+    {file = "Flask-Reuploaded-1.4.0.tar.gz", hash = "sha256:2f04e788b925e7c2110c9451ea5993955607b01de272a9b041c6923000b58c7b"},
+    {file = "Flask_Reuploaded-1.4.0-py3-none-any.whl", hash = "sha256:020af6cdcbbe9f9484a72007c0cdc39599c1076cd321d7dff56062dd8f58f7a3"},
+]
+
+[package.dependencies]
+Flask = ">=1.0.4"
+
+[package.extras]
+test = ["pytest", "pytest-cov"]
+
+[[package]]
 name = "flask-security"
 version = "3.0.0"
 description = "Simple security for Flask apps."
@@ -1348,4 +1365,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "3ef6aff136164303e32dd05d21f9b1a26c6eb00c8a140ac89d30b3e254e6374e"
+content-hash = "bde0c3ea842f17ffd7698af91117feac2f9e27106015d589a539843d0a4ed33e"

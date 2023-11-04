@@ -1,3 +1,4 @@
+from flask_uploads import UploadSet, IMAGES
 from flask_wtf import FlaskForm
 from flask_wtf import FlaskForm
 from wtforms import (
@@ -7,8 +8,34 @@ from wtforms import (
     TextAreaField,
     URLField,
     PasswordField,
+    SelectField,
+    ColorField,
 )
-from wtforms.validators import InputRequired, NumberRange, Email, EqualTo, Length
+from wtforms.validators import (
+    InputRequired,
+    NumberRange,
+    Email,
+    EqualTo,
+    Length,
+    Regexp,
+)
+from flask_wtf.file import FileRequired, FileAllowed, FileField
+
+from flask import current_app
+
+
+class NewCategoryForm(FlaskForm):
+    name = StringField("Name", validators=[InputRequired()])
+    color = ColorField("Color", validators=[InputRequired()])
+    icon_svg = FileField(
+        "SVG icon",
+        validators=[
+            FileAllowed(IMAGES, "Only Images"),
+            FileRequired("File is required")
+        ]
+    )
+    submit = SubmitField("Save")
+
 
 class RegisterForm(FlaskForm):
     email = StringField("Email", validators=[InputRequired(), Email()])

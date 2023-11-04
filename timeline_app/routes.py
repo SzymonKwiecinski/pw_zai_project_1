@@ -1,4 +1,5 @@
 import functools
+import os
 
 from flask import (
     Blueprint,
@@ -12,8 +13,10 @@ from flask import (
     flash,
 )
 from passlib.hash import pbkdf2_sha256
+from werkzeug.utils import secure_filename
+
 from timeline_app.database import db
-from timeline_app.forms import LoginForm, RegisterForm
+from timeline_app.forms import LoginForm, RegisterForm, NewCategoryForm
 from timeline_app.models import User, Category, Event
 from sqlalchemy import select, alias
 from icecream import ic
@@ -96,6 +99,49 @@ def category(_id: int):
 
     session["active_categories"] = active_categories
     return redirect(url_for(".index"))
+
+
+@pages.route("/edit_categories")
+def edit_categories():
+    categories = db.session.execute(
+        select(Category.id, Category.name, Category.color, Category.icon_svg)
+    ).all()
+
+    return render_template("edit_categories.html", categories=categories)
+
+
+@pages.route("/add_category", methods=["GET", "POST"])
+def add_category():
+    form = NewCategoryForm()
+    if form.validate_on_submit():
+        ic(f"timeline_app/static/img/category/{form.icon_svg.data.filename}")
+        if os.path.isfile(f"timeline_app/static/img/category/{form.icon_svg.data.filename}"):
+            flash("File with this name exists", category="danger")
+            return redirect(url_for(".add_category"))
+
+
+        new_category = Category(name=form.name.data, color=form.color.data, icon_svg=form.icon_svg.data.filename)
+        db.session.add(new_category)
+        db.session.commit()
+        current_app.photos.save(form.icon_svg.data, folder="category")
+
+
+        return redirect(url_for(".edit_categories"))
+
+    return render_template("add_category.html", form=form)
+
+
+
+
+@pages.route("/edit_category/<int:_id>")
+def edit_category(_id: int):
+    category = db.session.execute(
+        select(Category.id, Category.name, Category.color, Category.icon_svg).where(Category.id == _id)
+    ).one()
+
+
+
+    return render_template("edit_categories.html", categories=categories, edit_category=category)
 
 
 @pages.route("/login", methods=["GET", "POST"])

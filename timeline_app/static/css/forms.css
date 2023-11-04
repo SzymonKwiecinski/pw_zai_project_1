@@ -45,6 +45,15 @@
     background: var(--background-color);
 }
 
+.form__color-field {
+    width: auto;
+    height: 2rem;
+}
+
+.form__file-field {
+
+}
+
 .form__field:focus {
     border-bottom: var(--border);
 }
