@@ -30,3 +30,25 @@
         {% endfor %}
     </div>
 {% endmacro %}
+
+{%  macro render_date_field(field) %}
+    <div class="form__group">
+        {{ field.label(class="form__label") }}
+        {{ field(class="form__date-field", enctype="multipart/form-data") }}
+
+        {%- for error in field.errors  %}
+            <span class="form__error">{{ error }}</span>
+        {% endfor %}
+    </div>
+{% endmacro %}
+
+{%  macro render_selector_field(field) %}
+    <div class="form__group">
+        {{ field.label(class="form__label") }}
+        {{ field(class="form__selector-field", enctype="multipart/form-data") }}
+
+        {%- for error in field.errors  %}
+            <span class="form__error">{{ error }}</span>
+        {% endfor %}
+    </div>
+{% endmacro %}

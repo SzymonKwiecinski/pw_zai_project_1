@@ -1,12 +1,12 @@
 {% extends 'layout.html' %}
-{% from "macros/fields.html" import render_text_field, render_color_field, render_file_field %}
+{% from "macros/fields.html" import render_selector_field, render_text_field, render_color_field,render_date_field, render_file_field %}
 {% block head_content %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}"/>
 
 {% endblock %}
 
 {% block main_content %}
-    <form name="add_category" method="post" novalidate class="form" enctype="multipart/form-data">
+    <form name="add_event" method="post" novalidate class="form" enctype="multipart/form-data">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {%- for category, message in messages %}
                 <span class="form__flash form__flash--{{ category }}"> {{ message }}</span>
@@ -17,15 +17,14 @@
             {{ form.hidden_tag() }}
 
             {{ render_text_field(form.name) }}
-            {{ render_color_field(form.color) }}
-            {{ render_file_field(form.icon_svg) }}
-            <img class="category__icon"
-                 src="{{ url_for('static', filename='img/category/'~category.icon_svg ) }}"
-                 alt="category.icon_svg"
-            />
+            {{ render_text_field(form.description) }}
+            {{ render_file_field(form.graphic) }}
+            {{ render_date_field(form.start_date) }}
+            {{ render_date_field(form.end_date) }}
+            {{ render_selector_field(form.category) }}
+
             <div>
                 {{ form.submit(class="button button--form") }}
-                <a href="{{ url_for('pages.delete_category', _id=category.id, icon_svg=category.icon_svg) }}" class="form__link"><small>Delete Category</small></a>
             </div>
         </div>
     </form>

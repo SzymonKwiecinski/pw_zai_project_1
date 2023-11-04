@@ -25,6 +25,17 @@
             {% endfor %}
         </div>
         <div class="timeline">
+
+
+        <div class="event">
+            <a href="{{ url_for('pages.new_event') }}" class="event__link">
+                <div class="event__body">
+                    <h2 class="event__name">Add new event</h2>
+                </div>
+            </a>
+        </div>
+
+
             {% for event in events %}
                 {% if event.category_id in session.get('active_categories') %}
                     <div class="event">

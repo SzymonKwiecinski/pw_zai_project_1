@@ -1,3 +1,4 @@
+import datetime
 import functools
 import os
 from pathlib import Path
@@ -23,6 +24,7 @@ from timeline_app.forms import (
     RegisterForm,
     NewCategoryForm,
     EditCategoryForm,
+    AddEventForm,
 )
 from timeline_app.models import User, Category, Event
 from sqlalchemy import select, alias, update, delete
@@ -36,7 +38,9 @@ from timeline_app.helpers import (
     remove_file_from_event,
     add_file_to_category,
     add_file_to_event,
-    category_exits, SALT_SIZE,
+    category_exits,
+    event_exits,
+    SALT_SIZE,
 )
 
 pages = Blueprint(
@@ -82,6 +86,41 @@ def event(_id: int):
         session["active_event"] = _id
     ic(session.get("active_event"))
     return redirect(url_for(f".index", _anchor=str(_id)))
+
+
+@pages.route("/new_event", methods=["GET", "POST"])
+def new_event():
+    form = AddEventForm()
+    categories = db.session.execute(select(Category.name)).all()
+    form.category.choices = [c.name for c in categories]
+
+    if form.validate_on_submit():
+        if form.start_date.data > form.end_date.data:
+            flash("Wrong dates", category="danger")
+            return redirect(url_for(".new_event"))
+
+        category = db.session.execute(
+            select(Category.id).where(Category.name == form.category.data)
+        ).one()
+
+        event = Event(
+            name=form.name.data,
+            description=form.description.data,
+            graphic=form.graphic.data.filename,
+            start_date=form.start_date.data,
+            end_date=form.end_date.data,
+            category_id=category.id,
+        )
+
+        db.session.add(event)
+        add_file_to_event(form.graphic.data)
+        db.session.commit()
+
+        return redirect(url_for(".index"))
+
+
+
+    return render_template("add_event.html", form=form)
 
 
 @pages.route("/category/<int:_id>")

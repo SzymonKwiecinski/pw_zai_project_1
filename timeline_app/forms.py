@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask_uploads import UploadSet, IMAGES
 from flask_wtf import FlaskForm
 from flask_wtf import FlaskForm
@@ -20,6 +22,7 @@ from wtforms.validators import (
     Length,
     Regexp,
     DataRequired,
+
 )
 from flask_wtf.file import FileRequired, FileAllowed, FileField
 
@@ -36,9 +39,10 @@ class EventForm(FlaskForm):
             FileRequired("File is required"),
         ],
     )
-    start_date = DateField("Start date", validators=[InputRequired(), DataRequired()])
-    end_date = DateField("End date", validators=[InputRequired(), DataRequired()])
-    category = SelectField("Category")
+    start_date = DateField("Start date", default=datetime.now(), validators=[InputRequired(), DataRequired()])
+    end_date = DateField("End date", default=datetime.now(), validators=[InputRequired(), DataRequired()])
+    category = SelectField("Category", choices=[])
+
 
 
 class AddEventForm(EventForm):
