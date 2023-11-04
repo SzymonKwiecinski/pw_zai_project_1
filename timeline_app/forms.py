@@ -10,6 +10,7 @@ from wtforms import (
     PasswordField,
     SelectField,
     ColorField,
+    DateField,
 )
 from wtforms.validators import (
     InputRequired,
@@ -18,10 +19,34 @@ from wtforms.validators import (
     EqualTo,
     Length,
     Regexp,
+    DataRequired,
 )
 from flask_wtf.file import FileRequired, FileAllowed, FileField
 
 from flask import current_app
+
+
+class EventForm(FlaskForm):
+    name = StringField("Name", validators=[InputRequired()])
+    description = TextAreaField("Description", validators=[InputRequired()])
+    graphic = FileField(
+        "Graphic PNG",
+        validators=[
+            FileAllowed(["png"], "Only PNG format"),
+            FileRequired("File is required"),
+        ],
+    )
+    start_date = DateField("Start date", validators=[InputRequired(), DataRequired()])
+    end_date = DateField("End date", validators=[InputRequired(), DataRequired()])
+    category = SelectField("Category")
+
+
+class AddEventForm(EventForm):
+    submit = SubmitField("Add new")
+
+
+class EditEventForm(EventForm):
+    submit = SubmitField("Save Edited")
 
 
 class CategoryForm(FlaskForm):
@@ -30,7 +55,7 @@ class CategoryForm(FlaskForm):
     icon_svg = FileField(
         "SVG icon",
         validators=[
-            FileAllowed(IMAGES, "Only Images"),
+            FileAllowed(["svg"], "Only Images"),
             FileRequired("File is required"),
         ],
     )

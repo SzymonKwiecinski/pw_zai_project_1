@@ -52,6 +52,18 @@
                                 {% endif %}
                             </div>
                         </a>
+                        {% if event.id == session.get('active_event') %}
+                            <div class="event__actions">
+                                <a href="#" class="event__delete event__link">
+                                    Delete
+
+                                </a>
+                                <a href="#" class="event__edit event__link">
+                                    Edit
+                                </a>
+                            </div>
+
+                        {% endif %}
                     </div>
                 {% endif %}
             {% endfor %}
