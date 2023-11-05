@@ -34,6 +34,6 @@ entity category {
 
 
 
-event ||--|| category
+event }o--|| category
 
 @enduml
