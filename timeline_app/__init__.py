@@ -11,6 +11,7 @@ from timeline_app.routes import pages
 
 photos = UploadSet("photos", IMAGES)
 UPLOAD_FOLDER = "timeline_app/static/img"
+QUERIES_DIR = Path(__file__).parent / "queries"
 
 
 def create_app():
@@ -31,8 +32,8 @@ def create_app():
         db.drop_all()
         db.create_all()
 
-        path = Path('/Users/kwiecs01/PycharmProjects/PrivateProjects/PW_ZAI_project_1/queries/populate_tables.sql')
-        db.session.execute(text(path.read_text()))
+        populate_tables = QUERIES_DIR / "populate_tables.sql"
+        db.session.execute(text(populate_tables.read_text()))
         db.session.commit()
 
     return app
