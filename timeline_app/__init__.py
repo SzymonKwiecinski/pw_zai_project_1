@@ -7,8 +7,8 @@ from flask_uploads import IMAGES, UploadSet, configure_uploads
 from passlib.handlers.pbkdf2 import pbkdf2_sha256
 from sqlalchemy import text
 
-from helpers import extract_hash_pwd_with_salt
-from models import User
+from timeline_app.helpers import extract_hash_pwd_with_salt
+from timeline_app.models import User
 from timeline_app.database import db
 from timeline_app.routes import pages
 
