@@ -4,8 +4,11 @@ from pathlib import Path
 from dotenv import load_dotenv
 from flask import Flask
 from flask_uploads import IMAGES, UploadSet, configure_uploads
+from passlib.handlers.pbkdf2 import pbkdf2_sha256
 from sqlalchemy import text
 
+from helpers import extract_hash_pwd_with_salt
+from models import User
 from timeline_app.database import db
 from timeline_app.routes import pages
 
@@ -34,6 +37,19 @@ def create_app():
 
         populate_tables = QUERIES_DIR / "populate_tables.sql"
         db.session.execute(text(populate_tables.read_text()))
+
+        pbkdf2_sha256_password = pbkdf2_sha256.hash(
+            "test", salt_size=32
+        )
+        hashed_password_with_salt = extract_hash_pwd_with_salt(pbkdf2_sha256_password)
+
+
+        user = User(
+            id=1,
+            email="test@gamil.com",
+            password=hashed_password_with_salt
+        )
+        db.session.add(user)
         db.session.commit()
 
     return app
