@@ -15,7 +15,7 @@ from timeline_app.database import db
 class Event(db.Model):
     __tablename__ = "event"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(64), nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=True)
     graphic: Mapped[str] = mapped_column(String(64), nullable=True)

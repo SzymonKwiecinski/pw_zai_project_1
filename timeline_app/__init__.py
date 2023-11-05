@@ -1,8 +1,10 @@
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
 from flask import Flask
 from flask_uploads import IMAGES, UploadSet, configure_uploads
+from sqlalchemy import text
 
 from timeline_app.database import db
 from timeline_app.routes import pages
@@ -26,7 +28,11 @@ def create_app():
 
     #
     with app.app_context():
-        # db.drop_all()
+        db.drop_all()
         db.create_all()
+
+        path = Path('/Users/kwiecs01/PycharmProjects/PrivateProjects/PW_ZAI_project_1/queries/populate_tables.sql')
+        db.session.execute(text(path.read_text()))
+        db.session.commit()
 
     return app

@@ -9,7 +9,7 @@ from flask import (
 )
 from icecream import ic
 from passlib.hash import pbkdf2_sha256
-from sqlalchemy import select, update, delete
+from sqlalchemy import select, update, delete, func
 
 from timeline_app.database import db
 from timeline_app.forms import (
@@ -171,7 +171,10 @@ def new_event():
             select(Category.id).where(Category.name == form.category.data)
         ).one()
 
+        highest_event = db.session.execute(select(func.max(Event.id))).one()
+
         event = Event(
+            id=highest_event[0] + 1 if highest_event else 1,
             name=form.name.data,
             description=form.description.data,
             graphic=form.graphic.data.filename,
@@ -221,7 +224,10 @@ def add_category():
             flash("File with this name exists", category="danger")
             return redirect(url_for(".add_category"))
 
+        highest_category = db.session.execute(select(func.max(Category.id))).one()
+
         new_category = Category(
+            id=highest_category[0] + 1 if highest_category else 1,
             name=form.name.data,
             color=form.color.data,
             icon_svg=form.icon_svg.data.filename,
@@ -339,7 +345,10 @@ def register():
             form.password.data, salt_size=SALT_SIZE
         )
         hashed_password_with_salt = extract_hash_pwd_with_salt(pbkdf2_sha256_password)
-        user = User(email=form.email.data, password=hashed_password_with_salt)
+
+        highest_user = db.session.execute(select(func.max(Category.id))).one()
+
+        user = User(id=highest_user[0] + 1 if highest_user else 1, email=form.email.data, password=hashed_password_with_salt)
         db.session.add(user)
         db.session.commit()
 

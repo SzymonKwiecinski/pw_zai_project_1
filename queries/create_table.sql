@@ -1,28 +1,19 @@
-CREATE TABLE users
+CREATE TABLE "user"
 (
     id       SMALLSERIAL PRIMARY KEY,
-    nick     VARCHAR(64) UNIQUE  NOT NULL,
-    email    VARCHAR(64) UNIQUE  NOT NULL,
-    password VARCHAR(128) NOT NULL
+    email    VARCHAR(64) UNIQUE NOT NULL,
+    password VARCHAR(64)        NOT NULL
 );
 
-CREATE TABLE icons
+CREATE TABLE category
 (
-    id    SMALLSERIAL PRIMARY KEY,
-    name  VARCHAR(64) UNIQUE NOT NULL,
-    value TEXT               NOT NULL
+    id       SMALLSERIAL PRIMARY KEY,
+    name     VARCHAR(32) UNIQUE NOT NULL,
+    color    VARCHAR(7)         NOT NULL,
+    icon_svg VARCHAR(64)        NOT NULL
 );
 
-CREATE TABLE categories
-(
-    id      SMALLSERIAL PRIMARY KEY,
-    name    VARCHAR(32) UNIQUE NOT NULL,
-    color   VARCHAR(7),
-    icon_id SMALLINT REFERENCES icons (id) ON DELETE CASCADE,
-    CONSTRAINT fk_icon FOREIGN KEY (icon_id) REFERENCES icons (id)
-);
-
-CREATE TABLE events
+CREATE TABLE event
 (
     id          SERIAL PRIMARY KEY,
     name        VARCHAR(64) NOT NULL,
@@ -30,9 +21,7 @@ CREATE TABLE events
     graphic     VARCHAR(64),
     start_date  DATE        NOT NULL,
     end_date    DATE        NOT NULL,
-    user_id     SMALLINT    REFERENCES users (id) ON DELETE SET NULL,
-    category_id SMALLINT REFERENCES categories (id) ON DELETE RESTRICT,
-    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users (id),
-    CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES categories (id),
+    category_id SMALLINT REFERENCES category (id) ON DELETE RESTRICT,
+    CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES category (id),
     CHECK ( start_date <= end_date )
 );

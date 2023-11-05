@@ -1,6 +1,7 @@
-DELETE
-FROM event
-WHERE TRUE;
+INSERT INTO category (id, name, color, icon_svg)
+VALUES (1, 'Economic', '#C7B44E', 'economical.svg'),
+       (3, 'Social', '#67C766', 'social.svg'),
+       (2, 'Politic', '#4A58C7', 'political.svg');
 
 INSERT INTO event (id, name, description, graphic, start_date, end_date, category_id)
 VALUES (1,
@@ -24,7 +25,3 @@ VALUES (1,
         '2022-07-01',
         '2022-08-01',
         3);
-
-
-SELECT *
-from event;
