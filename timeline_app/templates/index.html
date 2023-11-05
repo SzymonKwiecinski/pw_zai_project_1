@@ -1,8 +1,8 @@
 {% extends 'layout.html' %}
 
 {% block head_content %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/category.css') }}"/>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/event.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/category.css') }}" media="all" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/event.css') }}" media="all" />
 {% endblock %}
 
 {% block main_content %}
@@ -28,7 +28,7 @@
 
 
         <div class="event">
-            <a href="{{ url_for('pages.new_event') }}" class="event__link">
+            <a href="{{ url_for('pages.new_event') }}" class="event__link" id="event__link--add-new">
                 <div class="event__body">
                     <h2 class="event__name">Add new event</h2>
                 </div>

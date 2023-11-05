@@ -1,0 +1,3 @@
+header, nav, footer, .event__actions, #event__link--add-new, .event__edit, .event__delete {
+    display: none;
+}
