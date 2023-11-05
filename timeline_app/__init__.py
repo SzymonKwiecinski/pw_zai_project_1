@@ -43,10 +43,9 @@ def create_app():
         )
         hashed_password_with_salt = extract_hash_pwd_with_salt(pbkdf2_sha256_password)
 
-
         user = User(
             id=1,
-            email="test@gamil.com",
+            email="test@gmail.com",
             password=hashed_password_with_salt
         )
         db.session.add(user)
