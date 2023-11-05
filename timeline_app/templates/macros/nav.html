@@ -5,7 +5,7 @@
 {% macro header(email, theme) %}
     <header class="header">
         <div class="nav-container">
-            <a href="" class="header__logo">
+            <a href="{{ url_for('pages.index') }}" class="header__logo">
 
                 <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="logo__icon"><title/>
                     <g data-name="1" id="_1">
@@ -20,6 +20,12 @@
             </a>
             <nav class="nav">
                 {% if not email %}
+                    <a
+                            href="{{ url_for('pages.index') }}"
+                            class="nav__link {{ 'nav__link--active' if request.path == url_for('pages.index') }}"
+                    >
+                        <span class="nav__item">History</span>
+                    </a>
                     <a
                             href="{{ url_for('pages.login') }}"
                             class="nav__link"

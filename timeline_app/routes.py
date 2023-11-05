@@ -40,7 +40,6 @@ pages = Blueprint(
 
 
 @pages.route("/")
-@login_required
 def index():
     categories = db.session.execute(
         select(Category.id, Category.name, Category.color, Category.icon_svg)
@@ -80,6 +79,7 @@ def event(_id: int):
 
 
 @pages.route("/delete_event")
+@login_required
 def delete_event():
     _id = request.args.get("_id")
     graphic = request.args.get("graphic")
@@ -92,6 +92,7 @@ def delete_event():
 
 
 @pages.route("/edit_event", methods=["GET", "POST"])
+@login_required
 def edit_event():
     _id = request.args.get("_id")
     event = db.session.execute(
@@ -157,6 +158,7 @@ def edit_event():
 
 
 @pages.route("/new_event", methods=["GET", "POST"])
+@login_required
 def new_event():
     form = AddEventForm()
     categories = db.session.execute(select(Category.name)).all()
@@ -206,6 +208,7 @@ def category(_id: int):
 
 
 @pages.route("/edit_categories")
+@login_required
 def edit_categories():
     categories = db.session.execute(
         select(Category.id, Category.name, Category.color, Category.icon_svg)
@@ -215,6 +218,7 @@ def edit_categories():
 
 
 @pages.route("/add_category", methods=["GET", "POST"])
+@login_required
 def add_category():
     form = NewCategoryForm()
     if form.validate_on_submit():
@@ -243,6 +247,7 @@ def add_category():
 
 
 @pages.route("/edit_category/<int:_id>", methods=["GET", "POST"])
+@login_required
 def edit_category(_id: int):
     category = db.session.execute(
         select(Category.id, Category.name, Category.color, Category.icon_svg).where(
@@ -275,6 +280,7 @@ def edit_category(_id: int):
 
 
 @pages.route("/delete_category/<int:_id>", methods=["GET", "POST"])
+@login_required
 def delete_category(_id: int):
     icon_svg = request.args.get("icon_svg", None)
 

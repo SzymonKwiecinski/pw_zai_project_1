@@ -84,7 +84,7 @@ class RegisterForm(FlaskForm):
         validators=[
             InputRequired(),
             Length(
-                min=1,
+                min=4,
                 max=20,
                 message="Your password must be between 4 and 20 characters long.",
             ),
