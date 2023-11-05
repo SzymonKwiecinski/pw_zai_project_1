@@ -2,7 +2,7 @@ CREATE TABLE "user"
 (
     id       SMALLSERIAL PRIMARY KEY,
     email    VARCHAR(64) UNIQUE NOT NULL,
-    password VARCHAR(64)        NOT NULL
+    password VARCHAR(128)        NOT NULL
 );
 
 CREATE TABLE category

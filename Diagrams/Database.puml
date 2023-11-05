@@ -5,15 +5,14 @@
 ' avoid problems with angled crows feet
 skinparam linetype ortho
 
-entity users {
+entity user {
   **id: SMALLINT <<PK>>**
   --
-  nick: VARCHAR(64)
-  email: VARCHAR(64)
+  email: VARCHAR(64) <<UNIQUE>>
   password: VARCHAR(128)
 }
 
-entity events {
+entity event {
   **id: INTEGER <<PK>>**
   --
   name: VARCHAR(64)
@@ -21,28 +20,20 @@ entity events {
   graphic: VARCHAR(64)
   start_date: DATE
   end_date: DATE
-  user_id: SMALLINT <<FK>>
   category_id: SMALLINT <<FK>>
 }
 
-entity categories {
+entity category {
   **id: SMALLINT <<PK>>**
   --
-  name: VARCHAR(32)
+  name: VARCHAR(32) <<UNIQUE>>
   color: VARCHAR(7)
-  icon_id: SMALLINT <<FK>>
-}
-
-entity icons {
-  **id: SMALLINT <<PK>>**
-  --
-  name: VARCHAR(64)
-  value: TEXT
+  icon_svg: VARCHAR(64)
 }
 
 
-users ||--o{ events
-events ||--|| categories
-categories ||--|| icons
+
+
+event ||--|| category
 
 @enduml
