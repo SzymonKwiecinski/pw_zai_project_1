@@ -1,0 +1,5 @@
+pull_postgres:
+	docker pull postgres
+run_postgres:
+	docker run --name pw-zai-db -d -p 2022:5432 -e POSTGRES_PASSWORD=postgre postgres
+
