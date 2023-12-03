@@ -4,6 +4,9 @@ Create simple system which allows to save in a timeline events. The example can 
 ### Presentation
 * [Youtube presentation movie](https://youtu.be/fg9gmwixJmU)
 
+[![Youtube presentation movie](http://img.youtube.com/vi/fg9gmwixJmU/0.jpg)](http://www.youtube.com/watch?v=https://youtu.be/fg9gmwixJmU)
+
+
 ### Technologies:
 * Python3
   * Flask
